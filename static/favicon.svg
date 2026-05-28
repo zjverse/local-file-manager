@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="folder" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#E0E7FF" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded square -->
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="url(#bg)"/>
+  <!-- Folder back panel -->
+  <path d="M112 168 C112 152, 124 140, 140 140 L200 140 L228 172 L372 172 C388 172, 400 184, 400 200 L400 360 C400 376, 388 388, 372 388 L140 388 C124 388, 112 376, 112 360 Z" fill="url(#folder)" opacity="0.4"/>
+  <!-- Folder front panel -->
+  <path d="M100 210 C100 194, 112 182, 128 182 L384 182 C400 182, 412 194, 412 210 L412 364 C412 380, 400 392, 384 392 L128 392 C112 392, 100 380, 100 364 Z" fill="url(#folder)"/>
+  <!-- File lines on folder -->
+  <rect x="160" y="248" width="120" height="12" rx="6" fill="#3B82F6" opacity="0.6"/>
+  <rect x="160" y="280" width="192" height="12" rx="6" fill="#3B82F6" opacity="0.4"/>
+  <rect x="160" y="312" width="156" height="12" rx="6" fill="#3B82F6" opacity="0.25"/>
+  <!-- Small gear accent (bottom-right) -->
+  <circle cx="370" cy="340" r="36" fill="#1D4ED8" opacity="0.15"/>
+  <circle cx="370" cy="340" r="20" fill="none" stroke="#1D4ED8" stroke-width="5" opacity="0.4"/>
+  <circle cx="370" cy="340" r="7" fill="#1D4ED8" opacity="0.4"/>
+</svg>
