@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local File Manager</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="toolbar">
+            <div class="nav-group">
+                <button id="btn-back" class="nav-btn" title="Back">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button id="btn-forward" class="nav-btn" title="Forward">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button id="btn-up" class="nav-btn" title="Up">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 10L8 6L12 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+
+            <nav id="breadcrumb" class="breadcrumb"></nav>
+
+            <div class="action-group">
+                <div class="search-box">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <input type="text" id="search-input" placeholder="Search files..." />
+                </div>
+                <button id="btn-new-folder" class="action-btn" title="New Folder">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4V13H14V6H8L6.5 4H2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 8V11M6.5 9.5H9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                </button>
+                <button id="btn-show-hidden" class="action-btn" title="Show Hidden Files">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8C1 8 3.5 3 8 3C12.5 3 15 8 15 8C15 8 12.5 13 8 13C3.5 13 1 8 1 8Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg>
+                </button>
+                <button id="btn-view-toggle" class="action-btn" title="Toggle View">
+                    <svg id="icon-list" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H14M2 12H14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    <svg id="icon-grid" width="16" height="16" viewBox="0 0 16 16" fill="none" style="display:none"><rect x="2" y="2" width="5" height="5" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="2" width="5" height="5" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="9" width="5" height="5" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="5" height="5" rx="0.5" stroke="currentColor" stroke-width="1.2"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <main id="file-list" class="file-list list-view"></main>
+
+        <footer class="status-bar">
+            <span id="status-info">Ready</span>
+        </footer>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="modal" style="display:none">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="preview-title"></span>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div id="preview-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div id="context-menu" class="context-menu" style="display:none">
+        <div class="ctx-item" data-action="open">Open</div>
+        <div class="ctx-item" data-action="rename">Rename</div>
+        <div class="ctx-item" data-action="delete">Delete</div>
+    </div>
+
+    <script src="/app.js"></script>
+    <script src="/i18n.js"></script>
+</body>
+</html>
