@@ -6,7 +6,7 @@
 ## 技术栈
 - **后端**: Python 3 + FastAPI
 - **前端**: HTML + CSS + Vanilla JS（无构建工具）
-- **运行方式**: `python main.py` 启动，浏览器打开 `http://localhost:8765`
+- **运行方式**: `python main.py` 启动，浏览器打开 `http://localhost:4060`
 
 ## 目录结构
 ```

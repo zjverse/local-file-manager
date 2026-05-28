@@ -213,6 +213,10 @@ body {
     background: var(--bg-active);
 }
 
+.list-view .file-item.clipboard-cut {
+    opacity: 0.5;
+}
+
 .file-icon {
     font-size: 18px;
     text-align: center;
@@ -285,6 +289,10 @@ body {
 
 .grid-view .file-item.selected {
     background: var(--bg-active);
+}
+
+.grid-view .file-item.clipboard-cut {
+    opacity: 0.5;
 }
 
 .grid-view .file-icon {
@@ -461,4 +469,106 @@ body {
     outline: none;
     font-family: var(--font);
     width: 200px;
+}
+
+/* Address Bar Edit Mode */
+.breadcrumb.edit-mode {
+    padding: 0;
+    background: var(--bg);
+}
+
+.address-bar-input {
+    width: 100%;
+    border: 1px solid var(--accent);
+    background: var(--bg-surface);
+    color: var(--text);
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: var(--radius);
+    outline: none;
+    font-family: var(--mono);
+}
+
+/* Sort Header Arrows */
+.list-header span[data-sort] {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+.list-header span[data-sort]:hover {
+    color: var(--accent);
+}
+
+/* Context Menu Separator */
+.ctx-separator {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 8px;
+}
+
+/* Context Menu Danger */
+.ctx-item.ctx-danger {
+    color: var(--danger);
+}
+
+/* Properties Dialog */
+.properties-content {
+    width: min(70vw, 500px);
+}
+
+.properties-table {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.prop-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.prop-row:last-child {
+    border-bottom: none;
+}
+
+.prop-label {
+    min-width: 80px;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.prop-value {
+    font-size: 12px;
+    color: var(--text);
+    word-break: break-all;
+}
+
+/* Drop Zone */
+.drop-zone {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(0, 122, 255, 0.1);
+    border: 3px dashed var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.drop-zone-text {
+    font-size: 24px;
+    color: var(--accent);
+    font-weight: 500;
+    background: var(--bg-surface);
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }

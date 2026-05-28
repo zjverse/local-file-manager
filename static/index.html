@@ -31,6 +31,9 @@
                 <button id="btn-new-folder" class="action-btn" title="New Folder">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4V13H14V6H8L6.5 4H2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 8V11M6.5 9.5H9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
                 </button>
+                <button id="btn-upload" class="action-btn" title="Upload Files">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2V10M8 2L5 5M8 2L11 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10V13H14V10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
                 <button id="btn-show-hidden" class="action-btn" title="Show Hidden Files">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8C1 8 3.5 3 8 3C12.5 3 15 8 15 8C15 8 12.5 13 8 13C3.5 13 1 8 1 8Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg>
                 </button>
@@ -54,17 +57,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <span id="preview-title"></span>
-                <button class="modal-close">&times;</button>
+                <button class="modal-close" data-close="preview-modal">&times;</button>
             </div>
             <div id="preview-body" class="modal-body"></div>
         </div>
     </div>
 
-    <!-- Context Menu -->
-    <div id="context-menu" class="context-menu" style="display:none">
-        <div class="ctx-item" data-action="open">Open</div>
-        <div class="ctx-item" data-action="rename">Rename</div>
-        <div class="ctx-item" data-action="delete">Delete</div>
+    <!-- Properties Modal -->
+    <div id="properties-modal" class="modal" style="display:none">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content properties-content">
+            <div class="modal-header">
+                <span>Properties</span>
+                <button class="modal-close" data-close="properties-modal">&times;</button>
+            </div>
+            <div id="properties-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Context Menu (dynamic) -->
+    <div id="context-menu" class="context-menu" style="display:none"></div>
+
+    <!-- Hidden file input for upload -->
+    <input type="file" id="file-upload-input" multiple style="display:none" />
+
+    <!-- Drop zone overlay -->
+    <div id="drop-zone" class="drop-zone" style="display:none">
+        <div class="drop-zone-text">Drop files here to upload</div>
     </div>
 
     <script src="/app.js"></script>

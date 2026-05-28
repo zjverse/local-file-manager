@@ -3,9 +3,10 @@ import shutil
 import mimetypes
 import time
 from pathlib import Path
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, UploadFile, File, Form
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from typing import List
 
 app = FastAPI(title="Local File Manager")
 
@@ -30,6 +31,7 @@ def file_info(p: Path) -> dict:
         "path": str(p),
         "is_dir": p.is_dir(),
         "size": stat.st_size,
+        "created": stat.st_ctime,
         "modified": stat.st_mtime,
         "mime": mime or "application/octet-stream",
         "suffix": p.suffix.lower(),
@@ -192,6 +194,106 @@ def rename_item(path: str = Query(...), name: str = Query(...)):
 
     p.rename(new_path)
     return {"old_path": str(p), "new_path": str(new_path), "renamed": True}
+
+
+@app.post("/api/mkfile")
+def create_file(path: str = Query(...), name: str = Query(...)):
+    """创建空文件"""
+    parent = safe_path(path)
+    if not parent.is_dir():
+        raise HTTPException(status_code=400, detail="Parent is not a directory")
+
+    new_file = parent / name
+    if new_file.exists():
+        raise HTTPException(status_code=400, detail="Already exists")
+
+    new_file.touch()
+    return {"path": str(new_file), "created": True}
+
+
+@app.post("/api/paste")
+def paste_items(sources: List[str] = Query(...), destination: str = Query(...), mode: str = Query(default="copy")):
+    """复制/剪切粘贴文件，支持多文件，冲突自动重命名"""
+    dest = safe_path(destination)
+    if not dest.is_dir():
+        raise HTTPException(status_code=400, detail="Destination is not a directory")
+
+    if mode not in ("copy", "move"):
+        raise HTTPException(status_code=400, detail="Invalid mode")
+
+    results = []
+    for src_path in sources:
+        src = safe_path(src_path)
+
+        target = dest / src.name
+        # 冲突自动重命名
+        if target.exists():
+            stem = src.stem
+            suffix = src.suffix
+            counter = 2
+            while target.exists():
+                target = dest / f"{stem} ({counter}){suffix}"
+                counter += 1
+
+        if mode == "copy":
+            if src.is_dir():
+                shutil.copytree(str(src), str(target))
+            else:
+                shutil.copy2(str(src), str(target))
+        else:  # move
+            shutil.move(str(src), str(target))
+
+        results.append({"source": str(src), "target": str(target)})
+
+    return {"results": results, "mode": mode}
+
+
+@app.post("/api/batch-delete")
+def batch_delete(paths: List[str] = Query(...)):
+    """批量删除文件或目录"""
+    deleted = []
+    errors = []
+    for p_str in paths:
+        try:
+            p = safe_path(p_str)
+            if str(p.resolve()) == str(Path.home().resolve()):
+                errors.append({"path": p_str, "error": "Cannot delete home directory"})
+                continue
+            if p.is_dir():
+                shutil.rmtree(str(p))
+            else:
+                p.unlink()
+            deleted.append(p_str)
+        except Exception as e:
+            errors.append({"path": p_str, "error": str(e)})
+
+    return {"deleted": deleted, "errors": errors}
+
+
+@app.post("/api/upload")
+async def upload_files(path: str = Query(...), files: List[UploadFile] = File(...)):
+    """上传文件到指定目录"""
+    dest = safe_path(path)
+    if not dest.is_dir():
+        raise HTTPException(status_code=400, detail="Destination is not a directory")
+
+    uploaded = []
+    for f in files:
+        target = dest / f.filename
+        # 冲突自动重命名
+        if target.exists():
+            stem = Path(f.filename).stem
+            suffix = Path(f.filename).suffix
+            counter = 2
+            while target.exists():
+                target = dest / f"{stem} ({counter}){suffix}"
+                counter += 1
+
+        content = await f.read()
+        target.write_bytes(content)
+        uploaded.append(str(target))
+
+    return {"uploaded": uploaded}
 
 
 # 挂载静态文件
